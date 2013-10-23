@@ -1,0 +1,35 @@
+#----------------------------------------------------------------------
+#
+#   Copyright 1993 - 2001, Bentley Systems, Inc.
+#
+#   All rights reserved.
+#
+#   Limited permission is hereby granted to reproduce and modify this
+#   copyrighted material provided that the resulting code is used only in
+#   conjunction with Bentley Systems products under the terms of the
+#   license agreement provided therein, and that this notice is retained
+#   in its entirety in any such reproduction or modification.
+#
+#----------------------------------------------------------------------
+basicRscs =   \
+    $(reqdObjs)basic.mi \
+    $(rscObjects)basic.rsc \
+    $(rscObjects)basicmsg.rsc 
+
+langSpec = $(BaseDir)english/
+
+
+$(rscObjects)basic.rsc		: $(BaseDir)basic.r $(langSpec)basictxt.h \
+				  $(privateInc)basic.h	\
+				  $(genSrc)basiccmd.h
+
+$(rscObjects)basicmsg.rsc	: $(langSpec)basicmsg.r $(privateInc)basic.h
+
+$(mdlapps)basic.ma		: $(basicRscs)
+	$(msg)
+	> $(rscObjects)make.opt
+	-o$@
+	$(basicRscs)
+	<
+	$(RLibCmd) @$(rscObjects)make.opt
+	~time
